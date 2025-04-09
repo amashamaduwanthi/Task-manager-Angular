@@ -1,9 +1,66 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TaskService } from './task-service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
   templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.css',
+  styleUrls: ['./task-form.component.css'],
+  imports: [FormsModule, CommonModule],
 })
-export class TaskFormComponent {}
+export class TaskFormComponent implements OnInit {
+  task = {
+    id: '',
+    title: '',
+    description: '',
+    completed: ''
+  };
+  tasks: any[] = [];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.getTasks();  // Fetch tasks on component initialization
+  }
+
+  // Fetch all tasks from the service
+  getTasks(): void {
+    this.taskService.getAllTasks().subscribe({
+      next: (response) => {
+        this.tasks = response;  // Assign the fetched tasks to the tasks array
+      },
+      error: (err) => {
+        console.error('Error fetching tasks:', err);
+        alert('Error fetching tasks');
+      }
+    });
+  }
+
+  // Add a new task
+  onSubmit(): void {
+    this.taskService.addTask(this.task).subscribe({
+      next: (response) => {
+        console.log('Task successfully added:', response);
+        alert('Task successfully added');
+        this.resetForm();
+        this.getTasks();
+      },
+      error: (err) => {
+        console.error('Error adding task:', err);
+        alert('Error adding task');
+      }
+    });
+  }
+
+//reset form
+  resetForm(): void {
+    this.task = {
+      id: '',
+      title: '',
+      description: '',
+      completed: ''
+    };
+  }
+}
