@@ -53,6 +53,23 @@ export class TaskFormComponent implements OnInit {
       }
     });
   }
+  // Delete task method
+  deleteTask(taskId: string): void {
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.taskService.deleteTask(taskId).subscribe({
+        next: (response) => {
+          console.log('Task deleted successfully:', response);
+          alert('Task deleted successfully');
+          this.getTasks(); // Refresh the task list
+        },
+        error: (err) => {
+          console.error('Error deleting task:', err);
+          alert('Error deleting task');
+        }
+      });
+    }
+  }
+
 
 //reset form
   resetForm(): void {
