@@ -177,6 +177,7 @@
     <input type="text" placeholder="Title" [(ngModel)]="task.title" name="title" required />
     <input type="text" placeholder="Description" [(ngModel)]="task.description" name="description" required />
     <input type="text" placeholder="Completed" [(ngModel)]="task.completed" name="completed" required />
+    <input type="datetime-local" placeholder="" [(ngModel)]="task.createdAt" name="created_at" required />
 
     <button type="submit">Add Task</button>
     <button type="button" *ngIf="task.id" (click)="updateTask()">Update Task</button>
@@ -191,6 +192,7 @@
       <th>Title</th>
       <th>Description</th>
       <th>Completed</th>
+      <th>created_at</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -200,6 +202,7 @@
       <td>{{ task.title }}</td>
       <td>{{ task.description }}</td>
       <td>{{ task.completed }}</td>
+      <td>{{task.createdAt}}</td>
       <td>
         <button type="button" class="delete-btn" (click)="deleteTask(task.id); $event.stopPropagation();">Delete</button>
         <button type="button" class="search-btn" (click)="getSelectedTask(task.id)">Search</button>

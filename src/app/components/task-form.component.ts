@@ -16,7 +16,8 @@ export class TaskFormComponent implements OnInit {
     id: '',
     title: '',
     description: '',
-    completed: ''
+    completed: '',
+    createdAt: ''
   };
   tasks: any[] = [];
   selectedTask: any;
@@ -42,8 +43,11 @@ export class TaskFormComponent implements OnInit {
 
   // Add a new task
   onSubmit(): void {
+
     this.taskService.addTask(this.task).subscribe({
+
       next: (response) => {
+        console.log(this.task);
         console.log('Task successfully added:', response);
         alert('Task successfully added');
         this.resetForm();
@@ -71,35 +75,6 @@ export class TaskFormComponent implements OnInit {
       });
     }
   }
-  // getSelectedTask(id: string): void {
-  //   this.taskService.getTaskById(id).subscribe({
-  //     next: (response) => {
-  //       console.log('Selected task:', response);
-  //       this.selectedTask = response;
-  //     },
-  //     error: (err) => {
-  //       console.error('Error fetching task:', err);
-  //       alert('Error fetching task');
-  //     }
-  //   });
-  // }
-  //
-  // updateTask(): void {
-  //   this.taskService.updateTask(this.task).subscribe({
-  //     next: (response) => {
-  //       console.log('Task successfully updated:', response);
-  //       alert('Task successfully updated');
-  //       this.resetForm();
-  //       this.getTasks(); // Refresh task list
-  //     },
-  //     error: (err) => {
-  //       console.error('Error updating task:', err);
-  //       alert('Error updating task');
-  //     }
-  //   });
-  // }
-  //
-
 
   getSelectedTask(id: string): void {
     this.taskService.getTaskById(id).subscribe({
@@ -132,6 +107,7 @@ export class TaskFormComponent implements OnInit {
 //reset form
   resetForm(): void {
     this.task = {
+      createdAt: '',
       id: '',
       title: '',
       description: '',
