@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from './task-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-task-form',
@@ -18,6 +19,7 @@ export class TaskFormComponent implements OnInit {
     completed: ''
   };
   tasks: any[] = [];
+  selectedTask: any;
 
   constructor(private taskService: TaskService) {}
 
@@ -68,6 +70,62 @@ export class TaskFormComponent implements OnInit {
         }
       });
     }
+  }
+  // getSelectedTask(id: string): void {
+  //   this.taskService.getTaskById(id).subscribe({
+  //     next: (response) => {
+  //       console.log('Selected task:', response);
+  //       this.selectedTask = response;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching task:', err);
+  //       alert('Error fetching task');
+  //     }
+  //   });
+  // }
+  //
+  // updateTask(): void {
+  //   this.taskService.updateTask(this.task).subscribe({
+  //     next: (response) => {
+  //       console.log('Task successfully updated:', response);
+  //       alert('Task successfully updated');
+  //       this.resetForm();
+  //       this.getTasks(); // Refresh task list
+  //     },
+  //     error: (err) => {
+  //       console.error('Error updating task:', err);
+  //       alert('Error updating task');
+  //     }
+  //   });
+  // }
+  //
+
+
+  getSelectedTask(id: string): void {
+    this.taskService.getTaskById(id).subscribe({
+      next: (response) => {
+        console.log('Selected task:', response);
+        this.task = response; // Populate the form fields with the selected task's data
+      },
+      error: (err) => {
+        console.error('Error fetching task:', err);
+        alert('Error fetching task');
+      }
+    });
+  }
+
+  updateTask(): void {
+    this.taskService.updateTask(this.task).subscribe({
+      next: (response) => {
+        console.log('Task updated successfully:', response);
+        alert('Task updated successfully');
+        this.getTasks();
+      },
+      error: (err) => {
+        console.error('Error updating task:', err);
+        alert('Error updating task');
+      }
+    });
   }
 
 

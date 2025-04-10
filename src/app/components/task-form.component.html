@@ -122,6 +122,17 @@
       margin-top: 8px;
       font-size: 13px;
     }
+    .search-btn {
+      background-color: #5fff4d;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-top: 8px;
+      font-size: 13px;
+    }
 
     .delete-btn:hover {
       background-color: #d9363e;
@@ -162,20 +173,17 @@
 <form (ngSubmit)="onSubmit()">
   <div class="form-container">
     <h1>Task Manager</h1>
-
     <input type="text" placeholder="Task ID" [(ngModel)]="task.id" name="id" required />
     <input type="text" placeholder="Title" [(ngModel)]="task.title" name="title" required />
     <input type="text" placeholder="Description" [(ngModel)]="task.description" name="description" required />
     <input type="text" placeholder="Completed" [(ngModel)]="task.completed" name="completed" required />
 
     <button type="submit">Add Task</button>
+    <button type="button" *ngIf="task.id" (click)="updateTask()">Update Task</button>
   </div>
 </form>
-
 <div class="form-container">
   <h1>All Tasks</h1>
-
-
   <table>
     <thead>
     <tr>
@@ -192,12 +200,13 @@
       <td>{{ task.title }}</td>
       <td>{{ task.description }}</td>
       <td>{{ task.completed }}</td>
-      <td><button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+      <td>
+        <button type="button" class="delete-btn" (click)="deleteTask(task.id); $event.stopPropagation();">Delete</button>
+        <button type="button" class="search-btn" (click)="getSelectedTask(task.id)">Search</button>
       </td>
     </tr>
     </tbody>
   </table>
-
 </div>
 
 </body>
